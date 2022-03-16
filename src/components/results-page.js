@@ -1,6 +1,7 @@
 import algoliasearch from 'algoliasearch';
 import instantsearch from 'instantsearch.js';
-import { searchBox, hits, pagination, refinementList } from 'instantsearch.js/es/widgets';
+import { searchBox, hits, pagination, refinementList, queryRuleCustomData, toggleRefinement, numericMenu } from 'instantsearch.js/es/widgets';
+import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares'
 
 import resultHit from '../templates/result-hit';
 
@@ -30,6 +31,17 @@ class ResultPage {
       indexName: process.env.ALGOLIA_INDEX,
       searchClient: this._searchClient,
     });
+
+// Middleware for analytics tracking
+
+    const insightsMiddleware = createInsightsMiddleware({
+      insightsClient: aa,
+    })
+
+    this._searchInstance.use(insightsMiddleware)
+
+    aa('setUserToken', 'myUserToken')
+
   }
 
   /**
@@ -45,7 +57,7 @@ class ResultPage {
       hits({
         container: '#hits',
         templates: {
-          item: resultHit,
+          item:resultHit,
         },
       }),
       pagination({
@@ -59,8 +71,32 @@ class ResultPage {
         container: '#categories-facet',
         attribute: 'categories',
       }),
+      toggleRefinement({
+        container: '#shipping-facet',
+        attribute: 'free_shipping',
+        templates: {
+        labelText: 'Free shipping',
+        }
+      }),
+      refinementList({
+        container: '#price_range-facet',
+        attribute: 'price_range',
+      }),
+      queryRuleCustomData({
+            container: '#banner',
+            templates: {
+              default: `
+                {{#items}}
+                  <div><h1>{{promo_content}}</h1></div>
+                {{/items}}
+              `,
+            },
+          })
     ]);
+
   }
+
+
 
   /**
    * @private

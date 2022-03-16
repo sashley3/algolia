@@ -13,7 +13,23 @@
   <link rel="stylesheet" href="./src/app.css">
 
   <title>algolia-sa-assignment</title>
-</head>
+  <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch.umd.js"></script>
+
+
+<script>
+      var ALGOLIA_INSIGHTS_SRC = "https://cdn.jsdelivr.net/npm/search-insights@1.7.1";
+      !function(e,a,t,n,s,i,c){e.AlgoliaAnalyticsObject=s,e[s]=e[s]||function(){
+      (e[s].queue=e[s].queue||[]).push(arguments)},i=a.createElement(t),c=a.getElementsByTagName(t)[0],
+      i.async=1,i.src=n,c.parentNode.insertBefore(i,c)
+      }(window,document,"script",ALGOLIA_INSIGHTS_SRC,"aa");
+
+      aa('init', {
+        appId: '8OZ9VW6NUV',
+        apiKey: '82c9885763426acf1966a4e7a870998a',
+      });
+    </script>
+
+  </head>
 
 <body>
   <header class="header">
@@ -34,6 +50,7 @@
   </header>
 
   <div class="results">
+       <div id="banner"></div>
     <div class="results__container">
       <div class="facet-panel">
         <div class="facet-panel__container">
@@ -43,6 +60,14 @@
         <div class="facet-panel__container">
           <h2>Categories</h2>
           <div class="facet-panel__facet-list" id="categories-facet"></div>
+        </div>
+         <div class="facet-panel__container">
+          <h2>Free Shipping</h2>
+          <div class="facet-panel__facet-list" id="shipping-facet"></div>
+        </div>
+        <div class="facet-panel__container">
+          <h2>Price Range</h2>
+          <div class="facet-panel__facet-list" id="price_range-facet"></div>
         </div>
       </div>
       <div class="search-panel">
